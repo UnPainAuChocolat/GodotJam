@@ -28,9 +28,11 @@ light_energy = 0.5
 spot_range = 25.0
 spot_angle = 35.0
 
-[node name="Area3D" type="Area3D" parent="Head" unique_id=958568773]
+[node name="Interaction" type="Area3D" parent="Head" unique_id=958568773]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Head/Area3D" unique_id=1622909217]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Head/Interaction" unique_id=1622909217]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -13)
 shape = SubResource("CylinderShape3D_kelma")
 debug_color = Color(0.9094336, 0.00011358857, 0.7351343, 0.41960785)
+
+[connection signal="area_entered" from="Head/Interaction" to="." method="_on_interaction_area_entered"]

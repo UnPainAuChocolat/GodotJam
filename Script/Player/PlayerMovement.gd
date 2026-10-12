@@ -22,10 +22,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		pitch_input = clamp(pitch_input, -85, 85)
 
 func handle_flashlight():
-	if Input.is_action_just_pressed("use") and light_state:
+	if Input.is_action_just_pressed("flashlight") and light_state:
 		light.hide()
 		light_state = false
-	elif Input.is_action_just_pressed("use"):
+	elif Input.is_action_just_pressed("flashlight"):
 		light.show()
 		light_state = true
 
@@ -49,3 +49,8 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
 		velocity.y = jump_velocity
+
+
+func _on_interaction_area_entered(area: Area3D) -> void:
+	if Input.is_action_just_pressed("use"):
+		area.hide()
