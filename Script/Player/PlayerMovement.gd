@@ -7,6 +7,7 @@ extends CharacterBody3D
 
 @onready var head = $Head
 @onready var light = $Head/Flashlight
+@onready var interact = $Head/Interaction
 
 var twist_input = 0.0
 var pitch_input = 0.0
@@ -31,6 +32,7 @@ func handle_flashlight():
 
 func _physics_process(delta: float) -> void:
 	handle_flashlight()
+	handle_interaction()
 	
 	#mouvement de la camera
 	var current_q = head.basis.get_rotation_quaternion()
@@ -51,6 +53,7 @@ func _physics_process(delta: float) -> void:
 		velocity.y = jump_velocity
 
 
-func _on_interaction_area_entered(area: Area3D) -> void:
-	if Input.is_action_just_pressed("use"):
-		area.hide()
+func handle_interaction():
+	var interactable = interact.get_overlapping_areas()
+	if Input.is_action_just_pressed("use") and interactable.size() > 0:
+		interactable[0].get_parent().hide()
