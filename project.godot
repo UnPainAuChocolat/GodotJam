@@ -15,6 +15,11 @@ run/main_scene="uid://cdcqxcrtdh5vb"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
+[global_group]
+
+oppenable=""
+interactable=""
+
 [input]
 
 forward={

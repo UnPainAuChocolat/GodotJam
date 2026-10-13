@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://mv5sbpkmpj4j"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_f6udf"]
+
+[sub_resource type="GDScript" id="GDScript_s7fkm"]
+script/source = "extends MeshInstance3D
+"
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f6udf"]
+
+[node name="Door" type="MeshInstance3D" unique_id=1501505744]
+transform = Transform3D(0.23132575, 0, 0, 0, 2.742587, 0, 0, 0, 1.4179993, 0, 0, 0)
+mesh = SubResource("BoxMesh_f6udf")
+script = SubResource("GDScript_s7fkm")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1799852928 groups=["oppenable"]]
+transform = Transform3D(1, 0, 0, 0, 0.99999964, 0, 0, 0, 0.9999997, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=239755902]
+transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0)
+shape = SubResource("BoxShape3D_f6udf")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=2118571729]
+transform = Transform3D(1, 0, 0, 0, 0.9999998, 0, 0, 0, 0.9999998, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=2004140447]
+transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0)
+shape = SubResource("BoxShape3D_f6udf")

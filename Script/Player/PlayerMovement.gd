@@ -26,15 +26,15 @@ func _unhandled_input(event: InputEvent) -> void:
 		pitch_input = clamp(pitch_input, -85, 85)
 
 func handle_flashlight():
-	if Input.is_action_just_pressed("flashlight") and light_state:
+	if Input.is_action_just_pressed("flashlight"):
+		start_time = Time.get_ticks_msec()
+		light_state = true
+	elif Input.is_action_just_released("flashlight"):
 		var current_time = Time.get_ticks_msec() - start_time
 		list_time.append(current_time)
 		index = 0
 		print(list_time)
 		light_state = false
-	elif Input.is_action_just_pressed("flashlight"):
-		start_time = Time.get_ticks_msec()
-		light_state = true
 	if light_state == true:
 		light.show()
 	elif light_state == false:
@@ -54,7 +54,7 @@ func verify_patern(patern: String):
 		else:
 			res = false
 			index = 0
-	return res
+	return res and index == (patern.length())
 
 func _physics_process(delta: float) -> void:
 	handle_flashlight()
@@ -86,4 +86,9 @@ func _physics_process(delta: float) -> void:
 func handle_interaction():
 	var interactable = interact.get_overlapping_areas()
 	if verify_patern("..-") and interactable.size() > 0 and list_time.size() > 3:
-		interactable[0].get_parent().hide()
+		if interactable[0].is_in_group("oppenable"):
+			interactable[0].get_parent().hide()
+			list_time = []
+		elif interactable[0].is_in_group("interactable"):
+			interactable[0].get_parent().activate()
+			list_time = []
