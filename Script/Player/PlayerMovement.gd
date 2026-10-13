@@ -12,6 +12,9 @@ extends CharacterBody3D
 var twist_input = 0.0
 var pitch_input = 0.0
 var light_state = false
+var start_time = 0.0
+var list_time = []
+var index = 0
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -24,15 +27,42 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func handle_flashlight():
 	if Input.is_action_just_pressed("flashlight") and light_state:
-		light.hide()
+		var current_time = Time.get_ticks_msec() - start_time
+		list_time.append(current_time)
+		index = 0
+		print(list_time)
 		light_state = false
 	elif Input.is_action_just_pressed("flashlight"):
-		light.show()
+		start_time = Time.get_ticks_msec()
 		light_state = true
+	if light_state == true:
+		light.show()
+	elif light_state == false:
+		light.hide()
+
+func verify_patern(patern: String):
+	var res = false
+	for element in list_time:
+		if (index >= patern.length()):
+			break
+		elif (patern[index] == '.') and element <= 400:
+			res = true
+			index = index + 1
+		elif (patern[index] == '-' and element > 400):
+			res = true
+			index = index + 1
+		else:
+			res = false
+			index = 0
+	return res
 
 func _physics_process(delta: float) -> void:
 	handle_flashlight()
 	handle_interaction()
+	
+	#eviter que la liste soit trop grande
+	if list_time.size() >= 5:
+		list_time.pop_front()
 	
 	#mouvement de la camera
 	var current_q = head.basis.get_rotation_quaternion()
@@ -55,5 +85,5 @@ func _physics_process(delta: float) -> void:
 
 func handle_interaction():
 	var interactable = interact.get_overlapping_areas()
-	if Input.is_action_just_pressed("use") and interactable.size() > 0:
+	if verify_patern("..-") and interactable.size() > 0 and list_time.size() > 3:
 		interactable[0].get_parent().hide()
