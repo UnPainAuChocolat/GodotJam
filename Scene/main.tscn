@@ -3,19 +3,20 @@
 [ext_resource type="PackedScene" uid="uid://vt0lpy0sbfbi" path="res://Scene/player.tscn" id="1_f6udf"]
 [ext_resource type="PackedScene" uid="uid://mv5sbpkmpj4j" path="res://Scene/door.tscn" id="2_sblpm"]
 [ext_resource type="PackedScene" uid="uid://b6nrtsynibw4y" path="res://Scene/button.tscn" id="3_r34rm"]
+[ext_resource type="PackedScene" uid="uid://btycee6j8wqpt" path="res://Scene/the_eye.tscn" id="4_2wwxx"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_f6udf"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_f6udf"]
 
-[node name="Node3D" type="Node3D" unique_id=314299534]
+[node name="MainLevel" type="Node3D" unique_id=314299534]
 
 [node name="Player" parent="." unique_id=1916309187 instance=ExtResource("1_f6udf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5663079, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.879826, 0)
 mouse_sens = 0.03
 
 [node name="Wall" type="MeshInstance3D" parent="." unique_id=778037009]
-transform = Transform3D(6.199675, 0, 0, 0, 2.9180346, 0, 0, 0, 1, 0, 0.9017832, -4.642061)
+transform = Transform3D(6.199675, 0, 0, 0, 2.9180346, 0, 0, 0, 1, 0, 2.861797, -4.642061)
 mesh = SubResource("BoxMesh_f6udf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Wall" unique_id=1343463673]
@@ -24,7 +25,7 @@ mesh = SubResource("BoxMesh_f6udf")
 shape = SubResource("BoxShape3D_f6udf")
 
 [node name="Ground" type="MeshInstance3D" parent="." unique_id=1247495462]
-transform = Transform3D(18.775583, 0, 0, 0, 1.2382858, 0, 0, 0, 17.519308, 0, -1.0648549, 1.5675175)
+transform = Transform3D(50, 0, 0, 0, 3.297, 0, 0, 0, 46.653, 0, 0, 0)
 mesh = SubResource("BoxMesh_f6udf")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Ground" unique_id=318125852]
@@ -33,13 +34,33 @@ mesh = SubResource("BoxMesh_f6udf")
 shape = SubResource("BoxShape3D_f6udf")
 
 [node name="Door" parent="." unique_id=1501505744 instance=ExtResource("2_sblpm")]
-transform = Transform3D(0.23132575, 0, 0, 0, 2.742587, 0, 0, 0, 1.4179993, -3.8282585, 0.8768592, 0.8661685)
+transform = Transform3D(0.23132575, 0, 0, 0, 2.742587, 0, 0, 0, 1.4179993, -3.8282585, 2.8973274, 0.8661685)
 
 [node name="Label3D" type="Label3D" parent="." unique_id=600828173]
-transform = Transform3D(1.4393661, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7294818, -4.1342697)
+transform = Transform3D(1.4393661, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6206052, -4.1342697)
 modulate = Color(0, 0, 0, 1)
 text = "..-"
 font_size = 191
 
 [node name="button" parent="." unique_id=1396394783 instance=ExtResource("3_r34rm")]
-transform = Transform3D(0.24229926, 0, 0, 0, 0.30740803, 0, 0, 0, 0.15661228, 1.8162228, 0.72785807, -4.063755)
+transform = Transform3D(0.24229926, 0, 0, 0, 0.30740803, 0, 0, 0, 0.15661228, 1.8162228, 2.823286, -4.063755)
+
+[node name="TheEye" parent="." unique_id=881381797 instance=ExtResource("4_2wwxx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0)
+min_bounds = Vector2(-25, -25)
+max_bounds = Vector2(25, 25)
+search_speed = 5.0
+
+[node name="Ground2" type="MeshInstance3D" parent="." unique_id=1690387847]
+transform = Transform3D(11.012655, 0, 0, 0, -0.3480451, 0, 0, 0, 8.333131, 0, 4.386121, -1.4009854)
+mesh = SubResource("BoxMesh_f6udf")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Ground2" unique_id=1698470711]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground2/StaticBody3D" unique_id=1992122616]
+shape = SubResource("BoxShape3D_f6udf")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=715661498]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.9589834, 0)
+light_color = Color(0.91764706, 0.7058824, 0, 1)
+light_energy = 2.0

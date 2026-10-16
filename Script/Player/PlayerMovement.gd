@@ -8,16 +8,20 @@ extends CharacterBody3D
 @onready var head = $Head
 @onready var light = $Head/Flashlight
 @onready var interact = $Head/Interaction
+@onready var DeathScreen = $DeathScreen/AnimatedSprite2D
 
 var twist_input = 0.0
 var pitch_input = 0.0
 var light_state = false
+var under_eye = false
 var start_time = 0.0
 var list_time = []
 var index = 0
+var health = 0
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	DeathScreen.play()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
@@ -32,9 +36,9 @@ func handle_flashlight():
 	elif Input.is_action_just_released("flashlight"):
 		var current_time = Time.get_ticks_msec() - start_time
 		list_time.append(current_time)
-		index = 0
 		print(list_time)
 		light_state = false
+		handle_interaction()
 	if light_state == true:
 		light.show()
 	elif light_state == false:
@@ -42,6 +46,7 @@ func handle_flashlight():
 
 func verify_patern(patern: String):
 	var res = false
+	index = 0
 	for element in list_time:
 		if (index >= patern.length()):
 			break
@@ -58,12 +63,18 @@ func verify_patern(patern: String):
 
 func _physics_process(delta: float) -> void:
 	handle_flashlight()
-	handle_interaction()
 	
 	#eviter que la liste soit trop grande
 	if list_time.size() >= 5:
 		list_time.pop_front()
-	
+		
+	DeathScreen.self_modulate.a = health
+	if health >= 1:
+		position = Vector3(0, 2, 0)
+		health = 0
+	elif health > 0 and under_eye == false:
+		health -= 0.1 * delta
+		
 	#mouvement de la camera
 	var current_q = head.basis.get_rotation_quaternion()
 	var twist_q = Quaternion(Vector3.UP, deg_to_rad(twist_input))
@@ -72,7 +83,7 @@ func _physics_process(delta: float) -> void:
 	head.basis = Basis(smoothed_q)
 	
 	#mouvement du joueur
-	velocity.y += -gravity * delta
+	velocity.y -= gravity * delta
 	var input = Input.get_vector("left", "right", "forward", "backward")
 	var movement_dir = head.transform.basis * Vector3(input.x, 0, input.y)
 	velocity.x = movement_dir.x * speed

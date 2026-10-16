@@ -2,13 +2,14 @@
 
 [ext_resource type="Script" uid="uid://cnj0o1in5t2n3" path="res://Script/Player/PlayerMovement.gd" id="1_kelma"]
 [ext_resource type="Texture2D" uid="uid://dir3r0adtqsga" path="res://Assets/Flashlight.png" id="2_y8w33"]
+[ext_resource type="PackedScene" uid="uid://3eayp3pvhcg0" path="res://Scene/DeathScreen.tscn" id="3_xa75v"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_y8w33"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_kelma"]
 height = 25.0
 
-[node name="Player" type="CharacterBody3D" unique_id=1916309187]
+[node name="Player" type="CharacterBody3D" unique_id=1916309187 groups=["Player"]]
 script = ExtResource("1_kelma")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=225755571]
@@ -31,5 +32,7 @@ spot_range = 25.0
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -13)
 shape = SubResource("CylinderShape3D_kelma")
 debug_color = Color(0.9094336, 0.00011358857, 0.7351343, 0.41960785)
+
+[node name="DeathScreen" parent="." unique_id=578098211 instance=ExtResource("3_xa75v")]
 
 [connection signal="area_entered" from="Head/Interaction" to="." method="_on_interaction_area_entered"]
